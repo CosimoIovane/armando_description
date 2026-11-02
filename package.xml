@@ -31,4 +31,6 @@
   <export>
     <build_type>ament_cmake</build_type>
   </export>
+  <depend>rclcpp</depend>
+  <depend>trajectory_msgs</depend>
 </package>

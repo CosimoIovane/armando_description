@@ -107,16 +107,15 @@ def generate_launch_description():
         arguments=['joint_trajectory_controller', '--controller-manager', '/controller_manager'],
     )
 
-    # ==== CRUCIALE: Bridge ROS <-> Gazebo pulito e sicuro ====
     bridge_node = Node(
         package='ros_gz_bridge',
         executable='parameter_bridge',
         arguments=[
             '/camera@sensor_msgs/msg/Image@gz.msgs.Image',
             '/camera_info@sensor_msgs/msg/CameraInfo@gz.msgs.CameraInfo',
+            '/wrist_camera@sensor_msgs/msg/Image@gz.msgs.Image',
+            '/wrist_camera_info@sensor_msgs/msg/CameraInfo@gz.msgs.CameraInfo', # NUOVO
             '/world/armando_workbench/dynamic_pose/info@tf2_msgs/msg/TFMessage[gz.msgs.Pose_V',
-            
-            # Bridge per i comandi di presa 
             '/gripper/attach_a@std_msgs/msg/Empty@gz.msgs.Empty',
             '/gripper/detach_a@std_msgs/msg/Empty@gz.msgs.Empty',
             '/gripper/attach_b@std_msgs/msg/Empty@gz.msgs.Empty',
@@ -129,12 +128,12 @@ def generate_launch_description():
         remappings=[
             ('/camera', '/camera/image_raw'),
             ('/camera_info', '/camera/camera_info'),
+            ('/wrist_camera', '/wrist_camera/image_raw'),
+            ('/wrist_camera_info', '/wrist_camera/camera_info'), # NUOVO
         ],
         output='screen',
         parameters=[{'use_sim_time': LaunchConfiguration('use_sim_time')}],
     )
-
-
     aruco_marker_publisher = Node(
         package='aruco_ros',
         executable='marker_publisher',

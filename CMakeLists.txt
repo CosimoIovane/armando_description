@@ -7,6 +7,16 @@ endif()
 
 # find dependencies
 find_package(ament_cmake REQUIRED)
+find_package(rclcpp REQUIRED)
+find_package(trajectory_msgs REQUIRED)
+
+add_executable(teleop_arm src/teleop_arm.cpp)
+ament_target_dependencies(teleop_arm rclcpp trajectory_msgs)
+
+install(TARGETS
+  teleop_arm
+  DESTINATION lib/${PROJECT_NAME}
+)
 # uncomment the following section in order to fill in
 # further dependencies manually.
 # find_package(<dependency> REQUIRED)
